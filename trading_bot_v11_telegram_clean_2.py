@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 import time
@@ -8,10 +9,10 @@ import google.generativeai as genai
 import telegram # Added for Telegram notifications
 
 # --- API Keys & Configuration ---
-GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE"
-EODHD_API_KEY = "YOUR_EODHD_API_KEY_HERE"
-TELEGRAM_BOT_TOKEN = "YOUR_TELEGRAM_BOT_TOKEN_HERE" # Added placeholder
-TELEGRAM_CHAT_ID = "YOUR_TELEGRAM_CHAT_ID_HERE"     # Added placeholder
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+EODHD_API_KEY = os.getenv("EODHD_API_KEY")
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN") # Added placeholder
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")     # Added placeholder
 
 # --- Indicator Functions (Obfuscated Names) ---
 def compute_market_energy(data):
