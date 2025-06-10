@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 import os
 import numpy as np
 import pandas as pd
@@ -7,11 +8,12 @@ import requests
 from sklearn.ensemble import RandomForestClassifier
 import google.generativeai as genai
 import telegram # Added for Telegram notifications
-import flask from Flask
+from flask import Flask
 from threading import Thread
 
 
-app = Flask(__name__)
+
+# Load all environment variables
 
 # --- API Keys & Configuration ---
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -787,41 +789,45 @@ def run_multi_asset_backtest(start_date="2023-01-01", end_date="2023-12-31"):
      for asset in assets:
          run_simple_backtest(asset["symbol"], asset["api_source"], EODHD_API_KEY, start_date, end_date)
 
+# if __name__ == "__main__":
+#     print("Starting Trading Bot...")
+#     # Choose one execution mode:
+#     # 1. Multi-Asset Live Trading:
+#     # execute_multi_asset_operations()
+    
+#     # 2. Single Asset Live Trading (Example: Bitcoin):
+#     # execute_primary_operations(symbol="BTC/USDT", api_source="ccxt", eod_api_key=EODHD_API_KEY)
+    
+#     # 3. Single Asset Live Trading (Example: Gold):
+#     # execute_primary_operations(symbol="GC=F", api_source="yfinance", eod_api_key=EODHD_API_KEY)
+
+#     # 4. Multi-Asset Backtesting:
+#     run_multi_asset_backtest()
+    
+#     # 5. Single Asset Backtesting (Example: Bitcoin):
+#     # run_simple_backtest(symbol="BTC/USDT", api_source="ccxt", eod_api_key=EODHD_API_KEY)
+    
+#     # 6. Single Asset Backtesting (Example: Gold):
+#     # run_simple_backtest(symbol="GC=F", api_source="yfinance", eod_api_key=EODHD_API_KEY)
+
+#     print("Trading Bot finished or running in background.")
+
+app = Flask(__name__)
 
 @app.route("/")
+
 def home():
-    return "Trading bot is running"
+    return "Trade Bot is running..."
 
 def run_web():
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
 
 def run_bot():
+    print("Starting trading bot")
     run_multi_asset_backtest()
-
-
-if __name__ == "__main__":
-    print("Starting Trading Bot with Dummy Web Server...")
-    Thread(target=run_web).start()
-    run_bot()
-    # Choose one execution mode:
-    # 1. Multi-Asset Live Trading:
-    # execute_multi_asset_operations()
-    
-    # 2. Single Asset Live Trading (Example: Bitcoin):
-    # execute_primary_operations(symbol="BTC/USDT", api_source="ccxt", eod_api_key=EODHD_API_KEY)
-    
-    # 3. Single Asset Live Trading (Example: Gold):
-    # execute_primary_operations(symbol="GC=F", api_source="yfinance", eod_api_key=EODHD_API_KEY)
-
-    # 4. Multi-Asset Backtesting:
-    
-    
-    # 5. Single Asset Backtesting (Example: Bitcoin):
-    # run_simple_backtest(symbol="BTC/USDT", api_source="ccxt", eod_api_key=EODHD_API_KEY)
-    
-    # 6. Single Asset Backtesting (Example: Gold):
-    # run_simple_backtest(symbol="GC=F", api_source="yfinance", eod_api_key=EODHD_API_KEY)
-
     print("Trading Bot finished or running in background.")
 
+if __name__ == "__main__":
+    Thread(target=run_web).start()
+    run_bot()
