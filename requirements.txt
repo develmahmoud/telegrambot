@@ -4,3 +4,4 @@ requests
 scikit-learn
 google-generativeai
 python-telegram-bot
+flask
